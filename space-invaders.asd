@@ -7,4 +7,5 @@
   :license "MIT License"
   :depends-on ("lispbuilder-sdl-gfx")
   :components ((:file "package")
-               (:file "space-invaders")))
+               (:file "space-invaders")
+               (:file "classes/ship")))
