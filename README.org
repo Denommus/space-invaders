@@ -1,0 +1,5 @@
+* Space Invaders for Common Lisp
+
+While I'm trying to learn Common Lisp, and game development on it, I decided to try to implement Space Invaders on it (since my project for C# and Ruby was Asteroids, and I got bored from it).
+
+Well, good luck for me!
