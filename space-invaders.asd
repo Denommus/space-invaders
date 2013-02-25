@@ -8,4 +8,5 @@
   :depends-on ("lispbuilder-sdl-gfx")
   :components ((:file "package")
                (:file "space-invaders")
-               (:file "classes/ship")))
+               (:file "classes/ship")
+               (:file "classes/scene-manager")))
