@@ -9,4 +9,5 @@
   :components ((:file "package")
                (:file "space-invaders")
                (:file "classes/ship")
+               (:file "classes/player")
                (:file "classes/scene-manager")))

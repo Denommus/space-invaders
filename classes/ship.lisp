@@ -27,6 +27,9 @@
 (defgeneric draw (this)
   (:documentation "Draws the ship on the screen"))
 
+(defgeneric update (this)
+  (:documentation "Updates the ship"))
+
 (defmethod draw ((this ship))
   "Draws the ship on the screen"
   (with-accessors ((image image-with-zoom) (pos pos)) this
