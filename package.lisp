@@ -1,4 +1,5 @@
 ;;;; package.lisp
 
 (defpackage #:space-invaders
-  (:use #:cl))
+  (:use #:cl)
+  (:export #:main))
