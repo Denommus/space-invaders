@@ -21,7 +21,15 @@
     :initarg :zoom
     :reader zoom
     :initform #(1 1)
-    :type vector)))
+    :type vector)
+   (current-cell
+    :accessor current-cell
+    :initform 0
+    :type integer)
+   (animation-time
+    :accessor animation-time
+    :initform 0
+    :type single-float)))
 
 (defmethod initialize-instance :after ((this ship) &key cells)
   (with-slots (zoom image-with-zoom image) this
@@ -44,11 +52,20 @@
 (defgeneric update (this)
   (:documentation "Updates the ship"))
 
+(defmethod update :before ((this ship))
+  "Makes sure the animation runs properly"
+  (with-accessors ((animation-time animation-time) (cell current-cell) (image image-with-zoom)) this
+    (incf animation-time 1/60)
+    (when (> animation-time 1/20)
+      (setf animation-time 0)
+      (incf cell)
+      (setf cell (mod cell (length (sdl:cells image)))))))
+
 (defmethod draw ((this ship))
   "Draws the ship on the screen"
-  (with-accessors ((image image-with-zoom) (pos pos)) this
+  (with-accessors ((image image-with-zoom) (pos pos) (cell current-cell)) this
     (when image
-      (sdl:draw-surface-at image pos :cell 0))))
+      (sdl:draw-surface-at image pos :cell cell))))
 
 (defgeneric (setf zoom) (value this)
   (:documentation "Sets the zoom"))
