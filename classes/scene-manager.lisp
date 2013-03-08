@@ -6,7 +6,8 @@
   ((scene-objects
     :initarg :scene-objects
     :accessor scene-objects
-    :initform ())))
+    :initform ()
+    :type list)))
 
 (defmethod update ((manager scene-manager))
-    (mapcar #'update (scene-objects manager)))
+  (mapcar #'update (scene-objects manager)))
