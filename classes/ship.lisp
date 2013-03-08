@@ -23,10 +23,20 @@
     :initform #(1 1)
     :type vector)))
 
-(defmethod initialize-instance :after ((this ship) &key)
+(defmethod initialize-instance :after ((this ship) &key cells)
   (with-slots (zoom image-with-zoom image) this
     (when image
-      (setf image-with-zoom (sdl:zoom-surface (elt zoom 0) (elt zoom 1) :surface image)))))
+      (when cells (setf (sdl:cells image) cells))
+      (setf image-with-zoom (sdl:zoom-surface (elt zoom 0) (elt zoom 1) :surface image))
+      (when cells
+        (setf (sdl:cells image-with-zoom)
+              (map 'vector
+                   #'(lambda (cell)
+                       (vector (round (* (elt cell 0) (elt zoom 0)))
+                               (round (* (elt cell 1) (elt zoom 1)))
+                               (round (* (elt cell 2) (elt zoom 0)))
+                               (round (* (elt cell 3) (elt zoom 1)))))
+                   cells))))))
 
 (defgeneric draw (this)
   (:documentation "Draws the ship on the screen"))
@@ -38,7 +48,7 @@
   "Draws the ship on the screen"
   (with-accessors ((image image-with-zoom) (pos pos)) this
     (when image
-      (sdl:draw-surface-at-* image (elt pos 0) (elt pos 1)))))
+      (sdl:draw-surface-at image pos :cell 0))))
 
 (defgeneric (setf zoom) (value this)
   (:documentation "Sets the zoom"))

@@ -7,10 +7,13 @@
   (sdl:with-init ()
     (sdl:window 800 600)
     (let ((ship1 (make-instance 'player
-                                :zoom #(0.1 0.1)
+                                :zoom #(1/6 1/6)
                                 :pos #(100 500)
                                 :image (sdl:load-image
-                                        (merge-pathnames #p"assets/nave.png")))))
+                                        (merge-pathnames #p"assets/nave.png"))
+                                :cells #(#(0 0 382 330)
+                                         #(382 0 382 330)
+                                         #(764 0 382 330)))))
       (sdl:update-display)
       (sdl:with-events ()
         (:quit-event () t)
