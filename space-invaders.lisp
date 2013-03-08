@@ -10,7 +10,7 @@
                                 :zoom #(0.1 0.1)
                                 :pos #(100 500)
                                 :image (sdl:load-image
-                                        (merge-pathnames #p"assets/nave1.png")))))
+                                        (merge-pathnames #p"assets/nave.png")))))
       (sdl:update-display)
       (sdl:with-events ()
         (:quit-event () t)
