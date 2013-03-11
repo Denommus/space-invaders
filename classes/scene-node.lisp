@@ -65,7 +65,12 @@
   "Draws the node on the screen"
   (with-accessors ((image image-with-zoom) (pos pos) (cell current-cell)) this
     (when image
-      (sdl:draw-surface-at image pos :cell cell))))
+      (let ((curr-cell (elt (sdl:cells image) cell)))
+        (sdl:draw-surface-at
+         image
+         (map 'vector #'-
+              pos (vector (round (/ (sdl:width curr-cell) 2))
+			  (round (/ (sdl:height curr-cell) 2)))) :cell cell)))))
 
 (defgeneric (setf zoom) (value this)
   (:documentation "Sets the zoom"))
