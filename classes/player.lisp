@@ -2,7 +2,20 @@
 
 (in-package #:space-invaders)
 
-(defclass player (scene-node) ())
+(defclass player (scene-node)
+  ((image
+    :initarg :image
+    :reader image
+    :initform (sdl:load-image
+               (merge-pathnames #p"assets/nave.png")))
+   (zoom
+    :initarg :zoom
+    :reader zoom
+    :initform #(1/6 1/6))
+   (pos
+    :initarg pos
+    :accessor pos
+    :initform #(100 500))))
 
 (defmacro cond-fall-through (&body cases)
   (flet ((transform-case (case)
