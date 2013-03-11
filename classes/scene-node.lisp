@@ -1,8 +1,8 @@
-;;;; classes/ship.lisp
+;;;; classes/scene-node.lisp
 
 (in-package #:space-invaders)
 
-(defclass ship ()
+(defclass scene-node ()
   ((pos
     :initarg :pos
     :accessor pos
@@ -31,7 +31,7 @@
     :initform 0
     :type single-float)))
 
-(defmethod initialize-instance :after ((this ship) &key cells)
+(defmethod initialize-instance :after ((this scene-node) &key cells)
   (with-slots (zoom image-with-zoom image) this
     (when image
       (when cells (setf (sdl:cells image) cells))
@@ -47,12 +47,12 @@
                    cells))))))
 
 (defgeneric draw (this)
-  (:documentation "Draws the ship on the screen"))
+  (:documentation "Draws the node on the screen"))
 
 (defgeneric update (this)
-  (:documentation "Updates the ship"))
+  (:documentation "Updates the node"))
 
-(defmethod update :before ((this ship))
+(defmethod update :before ((this scene-node))
   "Makes sure the animation runs properly"
   (with-accessors ((animation-time animation-time) (cell current-cell) (image image-with-zoom)) this
     (incf animation-time 1/60)
@@ -61,8 +61,8 @@
       (incf cell)
       (setf cell (mod cell (length (sdl:cells image)))))))
 
-(defmethod draw ((this ship))
-  "Draws the ship on the screen"
+(defmethod draw ((this scene-node))
+  "Draws the node on the screen"
   (with-accessors ((image image-with-zoom) (pos pos) (cell current-cell)) this
     (when image
       (sdl:draw-surface-at image pos :cell cell))))
@@ -70,7 +70,7 @@
 (defgeneric (setf zoom) (value this)
   (:documentation "Sets the zoom"))
 
-(defmethod (setf zoom) (value (this ship))
+(defmethod (setf zoom) (value (this scene-node))
   "Sets the zoom"
   (with-slots (image-with-zoom image) this
     (when image
