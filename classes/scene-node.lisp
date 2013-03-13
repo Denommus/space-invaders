@@ -29,7 +29,11 @@
    (animation-time
     :accessor animation-time
     :initform 0
-    :type single-float)))
+    :type single-float)
+   (scene-manager
+    :accessor scene-manager
+    :initform nil
+    :type scene-manager)))
 
 (defmethod initialize-instance :after ((this scene-node) &key cells)
   (with-slots (zoom image-with-zoom image) this
@@ -70,7 +74,7 @@
          image
          (map 'vector #'-
               pos (vector (round (/ (sdl:width curr-cell) 2))
-			  (round (/ (sdl:height curr-cell) 2)))) :cell cell)))))
+                          (round (/ (sdl:height curr-cell) 2)))) :cell cell)))))
 
 (defgeneric (setf zoom) (value this)
   (:documentation "Sets the zoom"))
