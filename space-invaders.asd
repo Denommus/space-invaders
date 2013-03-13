@@ -9,5 +9,6 @@
   :components ((:file "package")
                (:file "space-invaders")
                (:file "classes/scene-node")
+               (:file "classes/bullet")
                (:file "classes/player")
                (:file "classes/scene-manager")))

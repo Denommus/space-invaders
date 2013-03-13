@@ -33,4 +33,9 @@
       ((or (sdl:key-down-p :sdl-key-right) (sdl:key-down-p :sdl-key-d))
        (incf (elt pos 0) 20)
        (when (> (elt pos 0) 800)
-         (setf (elt pos 0) 800))))))
+         (setf (elt pos 0) 800)))
+      ((sdl:key-pressed-p :sdl-key-space)
+       (add-scene-object (scene-manager this)
+                         (make-instance 'bullet
+                                        :pos (vector (elt pos 0) (elt pos 1))
+                                        :cells #(#(0 0 382 330))))))))
