@@ -11,12 +11,21 @@
                               :cells #(#(0 0 382 330)
                                        #(382 0 382 330)
                                        #(764 0 382 330))))
-    :type list)))
+    :type list)
+   (time-next-enemy
+    :accessor time-next-enemy
+    :initform 1)))
 
 (defmethod initialize-instance :after ((this scene-manager) &key)
   (mapcar #'(lambda(x) (setf (scene-manager x) this)) (scene-objects this)))
 
 (defmethod update ((manager scene-manager))
+  (decf (time-next-enemy manager) 1/60)
+  (when (< (time-next-enemy manager) 0)
+    (setf (time-next-enemy manager) 1)
+    (add-scene-object manager (make-instance 'enemy
+                                             :cells #(#(0 0 382 330))
+                                             :pos (vector (random 801) 0))))
   (mapcar #'update (scene-objects manager)))
 
 (defmethod draw ((manager scene-manager))
