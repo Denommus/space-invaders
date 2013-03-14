@@ -39,16 +39,7 @@
   (with-slots (zoom image-with-zoom image) this
     (when image
       (when cells (setf (sdl:cells image) cells))
-      (setf image-with-zoom (sdl:zoom-surface (elt zoom 0) (elt zoom 1) :surface image))
-      (when cells
-        (setf (sdl:cells image-with-zoom)
-              (map 'vector
-                   #'(lambda (cell)
-                       (vector (round (* (elt cell 0) (elt zoom 0)))
-                               (round (* (elt cell 1) (elt zoom 1)))
-                               (round (* (elt cell 2) (elt zoom 0)))
-                               (round (* (elt cell 3) (elt zoom 1)))))
-                   cells))))))
+      (setf (zoom this) zoom))))
 
 (defgeneric draw (this)
   (:documentation "Draws the node on the screen"))
@@ -83,5 +74,15 @@
   "Sets the zoom"
   (with-slots (image-with-zoom image) this
     (when image
-      (sdl:zoom-surface (elt zoom 0) (elt zoom 1) :surface image))
-    (setf (slot-value this 'zoom) this)))
+      (setf image-with-zoom (sdl:zoom-surface (elt value 0) (elt value 1) :surface image))
+      (with-accessors ((cells sdl:cells)) image
+        (when cells
+          (setf (sdl:cells image-with-zoom)
+                (map 'vector
+                     #'(lambda (cell)
+                         (vector (round (* (sdl:x cell) (elt value 0)))
+                                 (round (* (sdl:y cell) (elt value 1)))
+                                 (round (* (sdl:width cell) (elt value 0)))
+                                 (round (* (sdl:height cell) (elt value 1)))))
+                     cells)))))
+    (setf (slot-value this 'zoom) value)))
