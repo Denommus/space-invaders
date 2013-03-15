@@ -35,7 +35,7 @@
 
 (defmethod collide ((bullet bullet) (enemy enemy))
   (< (reduce #'+ (map 'vector
-                      (lambda (x y) (* (- x y) (- x y)))
+                      (lambda (x y) (expt (- x y) 2))
                       (pos bullet)
                       (pos enemy)))
      500))
