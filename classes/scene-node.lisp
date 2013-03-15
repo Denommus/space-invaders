@@ -79,10 +79,10 @@
         (when cells
           (setf (sdl:cells image-with-zoom)
                 (map 'vector
-                     #'(lambda (cell)
-                         (vector (round (* (sdl:x cell) (elt value 0)))
-                                 (round (* (sdl:y cell) (elt value 1)))
-                                 (round (* (sdl:width cell) (elt value 0)))
-                                 (round (* (sdl:height cell) (elt value 1)))))
+                     (lambda (cell)
+		       (vector (round (* (sdl:x cell) (elt value 0)))
+			       (round (* (sdl:y cell) (elt value 1)))
+			       (round (* (sdl:width cell) (elt value 0)))
+			       (round (* (sdl:height cell) (elt value 1)))))
                      cells)))))
     (setf (slot-value this 'zoom) value)))

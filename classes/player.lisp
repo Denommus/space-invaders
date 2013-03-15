@@ -18,9 +18,9 @@
     :initform #(100 500))))
 
 (defmacro cond-fall-through (&body cases)
-  `(progn ,@(mapcar #'(lambda (case)
-                        `(when ,(car case)
-                           ,@(cdr case))) cases)))
+  `(progn ,@(mapcar (lambda (case)
+		      `(when ,(car case)
+			 ,@(cdr case))) cases)))
 
 (defmethod update ((this player))
   "Updates the player"
