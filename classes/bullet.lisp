@@ -17,5 +17,25 @@
   "Updates the bullet"
   (with-accessors ((pos pos) (scene-manager scene-manager)) this
     (setf pos (map 'vector #'+ pos #(0 -10)))
+    (mapcar #'(lambda (node)
+                (when (collide this node)
+                  (setf (scene-objects scene-manager)
+                        (delete node (scene-objects scene-manager)))
+                  (setf (scene-objects scene-manager)
+                        (delete this (scene-objects scene-manager)))))
+            (scene-objects scene-manager))
     (when (< (elt pos 1) 0)
       (setf (scene-objects scene-manager) (delete this (scene-objects scene-manager))))))
+
+(defgeneric collide (bullet enemy)
+  (:documentation "Tests collision between the bullet and an enemy"))
+
+(defmethod collide ((bullet bullet) enemy)
+  nil)
+
+(defmethod collide ((bullet bullet) (enemy enemy))
+  (< (reduce #'+ (map 'vector
+                      #'(lambda (x y) (* (- x y) (- x y)))
+                      (pos bullet)
+                      (pos enemy)))
+     500))
